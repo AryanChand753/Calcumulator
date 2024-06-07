@@ -5,7 +5,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import com.example.calcumulator.R
-import kotlin.text.toDouble
 
 class MainActivity : ComponentActivity() {
 
@@ -36,7 +35,6 @@ class MainActivity : ComponentActivity() {
         for (id in numberButtons) {
             findViewById<Button>(id).setOnClickListener { appendNumber((it as Button).text.toString()) }
         }
-
     }
 
     private fun clearAll() {
@@ -68,20 +66,34 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun setOperation(op: String) {
+        val resultTextView = findViewById<TextView>(R.id.result)
+        val currentText = resultTextView.text.toString()
+
+        // If firstNumber is not set, set it
         if (firstNumber == null) {
-            firstNumber = findViewById<TextView>(R.id.result).text.toString().toDoubleOrNull() ?: 0.0
+            firstNumber = currentText.toDoubleOrNull() ?: 0.0
         } else {
-            if (secondNumber == null) {
-                secondNumber = findViewById<TextView>(R.id.result).text.toString().toDoubleOrNull() ?: 0.0
+            // If there's an existing operation, set secondNumber and calculate
+            if (operation != null) {
+                secondNumber = currentText.toDoubleOrNull() ?: 0.0
                 calculateResult()
+                firstNumber = resultTextView.text.toString().toDoubleOrNull() ?: 0.0
             }
         }
+
+        // Set the new operation
         operation = op
-        findViewById<TextView>(R.id.result).text = "0.0"
+
+        // Clear the result display for the next input
+        resultTextView.text = "0.0"
     }
 
     private fun calculateResult() {
-        if (firstNumber != null && operation != null && secondNumber != null) {
+        val resultTextView = findViewById<TextView>(R.id.result)
+        val currentText = resultTextView.text.toString()
+
+        if (firstNumber != null && operation != null) {
+            secondNumber = currentText.toDoubleOrNull() ?: 0.0
             val result = when (operation) {
                 "+" -> firstNumber!! + secondNumber!!
                 "-" -> firstNumber!! - secondNumber!!
@@ -98,10 +110,10 @@ class MainActivity : ComponentActivity() {
             }
 
             // Update the result TextView with the calculated result
-            findViewById<TextView>(R.id.result).text = result.toString()
+            resultTextView.text = result.toString()
 
             // Update firstNumber with the calculated result
-            firstNumber = result.toString().toDouble()  // Convert result String to Double
+            firstNumber = result.toString().toDoubleOrNull() ?: 0.0  // Convert result String to Double
 
             // Reset secondNumber and operation for next operation
             secondNumber = null
