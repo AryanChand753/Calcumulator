@@ -16,6 +16,7 @@
         android:layout_weight="1">
 
         <TextView
+            android:id="@+id/result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="0.0"
@@ -70,7 +71,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EC8888"
+            android:background="#fff"
             android:layout_weight="1">
 
             <Button
@@ -105,7 +106,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#2196F3"
+            android:background="#fff"
             android:layout_weight="1">
 
             <Button
@@ -189,7 +190,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/zero"
-                android:text=""/>
+                android:text="_"/>
 
             <Button
                 android:id="@+id/dot"
